@@ -21,8 +21,19 @@ class RegistrationView(View):
     def get(self,request):
         return render(request,'authentication/register.html')    
     def post(self,request):
-        messages.success(request,'success')
-        messages.warning(request,'warning')
-        messages.info(request,'info')
-        messages.error(request,'error')
-        return render(request,'authentication/register.html')
+        # Pegando os dados
+        username = request.POST['username']
+        password = request.POST['password']
+        context = {
+            'fieldValues': request.POST
+        }
+        # Validando
+        if not User.objects.filter(username=username).exists():
+            if len(password) < 6:
+                messages.error(request, 'A senha deve conter ao menos 6 caracteres')
+                return render(request,'authentication/register.html', context)
+            user = User.objects.create_user(username=username)
+            user.set_password(password)
+            user.save()
+            messages.success(request, 'A sua conta foi criada')
+            return render(request,'authentication/register.html')

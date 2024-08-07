@@ -2,6 +2,7 @@ const usernameField = document.querySelector('#usernameField')
 const feedBackArea = document.querySelector('.invalid_feedback')
 const showPasswordToggle = document.querySelector('.showPasswordToggle')
 const passwordField = document.querySelector('#passwordField')
+const submitBtn = document.querySelector('.submit-btn')
 
 const handleToggleInput = (e) => {
     if(showPasswordToggle.textContent === "MOSTRAR") {
@@ -28,11 +29,13 @@ usernameField.addEventListener('keyup', (e) => {
         })
             .then((res) => res.json())
             .then((data) => {
-                console.log("data", data);
                 if (data.username_error) {
+                    submitBtn.disabled = true;
                     usernameField.classList.add("is-invalid");
                     feedBackArea.style.display = 'block';
                     feedBackArea.innerHTML=`<p>${data.username_error}</p>`
+                } else {
+                    submitBtn.removeAttribute('disabled');
                 }
             });
     }
