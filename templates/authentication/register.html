@@ -10,7 +10,9 @@
                         <div class="card-title py-1">
                             <h5 class="font-weight-bold">Criar conta</h5>
                         </div>
-                        <form action="" method="post">
+                        <form action="{% url 'register' %}" method="post">
+                            {% csrf_token %}
+                            {% include 'partials/_messages.html' %}
                             <div class="form-group">
                                 <input 
                                     type="text" 
