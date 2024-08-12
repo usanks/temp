@@ -4,11 +4,11 @@
 
 
 
-<nav class="col-md-2 d-none d-md-block bg-light sidebar">
+<nav class="col-md-2 d-none d-md-block bg-light sidebar mt-2">
   <div class="sidebar-sticky">
     <ul class="nav flex-column">
       <li class="nav-item">
-        <a class="nav-link active" href="">
+        <a class="nav-link active" href="{% url 'recordsapp' %}">
           <i class="fa-solid fa-users" style="margin-right: 6px;"></i>
           Visitantes
         </a>
@@ -28,12 +28,23 @@
           Configurações <span class="sr-only">(current)</span>
         </a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link active" href=""> 
-          <i class="fa-solid fa-arrow-right-from-bracket" style="margin-right: 9px;"></i>
-          Sair
-        </a>
-      </li>      
+      <li class="">
+        <form action="{% url 'logout' %}" method="POST">
+          {% csrf_token %}
+          <button
+            type="submit" 
+            class="nav-link active" 
+            style="border: none; background: none"           
+          >
+            <i class="fa-solid fa-arrow-right-from-bracket" style="margin-right: 9px;"></i>
+            Sair
+          </button>
+        </form>
+      </li>
     </ul>    
   </div>
 </nav>
+
+
+
+

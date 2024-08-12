@@ -1,19 +1,60 @@
 {% extends 'base.html' %}
 {% block content %}
-{% include 'partials/_messages.html' %}
-<div class="container">
-    <h1>Página Inicial</h1>
-    <ul class="list-group">
-        <li class="list-group-item">teste</li>
-        <li class="list-group-item">teste</li>
-        <li class="list-group-item">teste</li>
-        <li class="list-group-item">teste</li>
-        <li class="list-group-item">teste</li>
-        <li class="list-group-item">teste</li>
-        <li class="list-group-item">teste</li>
-        <li class="list-group-item">teste</li>
-    </ul>
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-10">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="">Visitantes</a></li>
+                </ol>
+            </nav>
+        </div>
+        <div class="col-md-2 mt-1">
+            <a href="{% url 'add-records' %}" class="btn btn-primary">Adicionar visitante</a>
+        </div>
+    </div>
+
+    <div class="container">
+        {% if visitantes.count %} {% include 'partials/_messages.html' %}
+        <table class="table table-stripped table-hover">
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>CPF</th>
+                    <th>Categoria</th>
+                    <th>Empresa</th>
+                    <th>Placa</th>
+                    <th>Hora</th>
+                    <th>Data</th>
+                    <th>Status</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for visitantes in visitantes %}
+                <tr>
+                    <td>{{visitantes.nome}}</td>
+                    <td>{{visitantes.cpf}}</td>
+                    <td>{{visitantes.categoria}}</td>
+                    <td>{{visitantes.empresa}}</td>
+                    <td>{{visitantes.placa}}</td>
+                    <td>{{visitantes.hora}}</td>
+                    <td>{{visitantes.data}}</td>
+                    <td>{{visitantes.status}}</td>
+                    <td>
+                        <a 
+                        href="{% url 'visitante_edit' visitantes.id %}" 
+                        class="btn btn-secondary btn-sm"
+                        >Editar</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% endif %}
+    </div>
+    
+
+
 </div>
-
-
 {% endblock %}

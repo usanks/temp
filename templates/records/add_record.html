@@ -1,7 +1,97 @@
-{% extends 'base.html' %}
+{% extends 'base.html' %} {% block content %}   
+<div class="containe mt-4">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'recordsapp' %}">Visitantes</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Adicionar visitante</li>
+        </ol>
+    </nav>
 
-{% block content %}   
+    <div class="mb-4 card">
+        <form action="{% url 'add-records' %}" method="post">
+            {% include 'partials/_messages.html' %}
+            {% csrf_token %}
+            <div class="card-body">
+                <div class="form-group">
+                    <label for="">Nome Completo *</label>
+                    <input 
+                        type="text" 
+                        class="form-control form-control-sm" 
+                        name = 'nome_visitante' 
+                        value="{{values.nome_visitante}}"
+                    >
+                </div>
+                <div class="form-group">
+                    <label for="">CPF (Apenas números) *</label>
+                    <input 
+                        type="number" 
+                        class="form-control form-control-sm" 
+                        name = 'cpf_visitante' 
+                        value="{{values.cpf_visitante}}" 
+                        placeholder = "Ex: 48658533289"
+                    >
+                </div>
+                <div class="form-group">
+                    <label for="">Categoria *</label>
+                    <select  class="form-control" name="categoria_visitante">
+                        {% for categorias in categorias %} 
+                        <option name = "categoria_visitante" value = "{{categorias.name}}">{{categorias.name}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="">Empresa</label>
+                    <input 
+                        type="text" 
+                        class="form-control form-control-sm" 
+                        name = 'empresa_visitante'
+                        value="{{values.empresa_visitante}}"
+                    >
+                </div>
+                <div class="form-group">
+                    <label for="">Placa (Apenas letras e números)</label>
+                    <input 
+                        type="text" 
+                        class="form-control form-control-sm" 
+                        name = 'placa_visitante'
+                        value="{{values.placa_visitante}}"
+                        placeholder = "Ex: XXX8748"
+                    >
+                </div>
+                <div class="form-group">
+                    <label for="">Hora *</label>
+                    <input 
+                        type="time" 
+                        class="form-control form-control-sm" 
+                        name = 'hora_visitante'
+                        value="{{values.hora_visitante}}"
+                    >
+                </div>
+                <div class="form-group">
+                    <label for="">Data *</label>
+                    <input 
+                        type="date" 
+                        class="form-control form-control-sm" 
+                        name = 'data_visitante'
+                        value="{{values.data_visitante}}"
+                    >
+                </div>
+                <div class="form-group">
+                    <label for="">Status *</label>
+                    <select class="form-control" name="status_visitante">
+                        {% for status in status %} 
+                        <option name = "status_visitante" value = "{{status.name}}">{{status.name}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <input type="submit" value="Enviar" class="mt-1 btn btn-primary">
+            </div>
+        </form>
+    </div>        
+</div>
 
-    <h1>Adicionar registro</h1>
+
+
+
 
 {% endblock %}
