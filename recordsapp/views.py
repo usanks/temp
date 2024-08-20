@@ -3,6 +3,7 @@ from django.views.decorators.cache import cache_control
 from django.contrib.auth.decorators import login_required
 from .models import Visitante, Categoria, Status
 from django.contrib import messages
+from django.core.paginator import Paginator
 
 # Create your views here.
 
@@ -12,8 +13,12 @@ def index(request):
     categorias = Categoria.objects.all()
     status = Status.objects.all()
     visitantes = Visitante.objects.filter(creator = request.user)
+    paginator = Paginator(visitantes, 2)
+    page_number = request.GET.get('page')
+    page_obj = Paginator.get_page(paginator, page_number)
     context = {
-        'visitantes': visitantes
+        'visitantes': visitantes,
+        'page_obj': page_obj
     }
     return render(request,'records/index.html', context)
 
@@ -151,5 +156,5 @@ def visitante_edit(request, id):
 def visitante_delete(request,id):
     visitantes = Visitante.objects.get(pk=id)
     visitantes.delete()
-    messages.success(request, 'Visitante removido')
+    messages.success(request, 'Registro removido com sucesso!')
     return redirect('recordsapp')

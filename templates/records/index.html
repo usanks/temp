@@ -31,7 +31,7 @@
                 </tr>
             </thead>
             <tbody>
-                {% for visitantes in visitantes %}
+                {% for visitantes in page_obj %}
                 <tr>
                     <td>{{visitantes.nome}}</td>
                     <td>{{visitantes.cpf}}</td>
@@ -51,10 +51,25 @@
                 {% endfor %}
             </tbody>
         </table>
-        {% endif %}
+        <div class="pagination-container">
+            <div class="">
+              Mostrando página {{page_obj.number}} de {{ page_obj.paginator.num_pages }}
+            </div>
+            <ul class="pagination align-right float-right mr-auto">
+              {% if page_obj.has_previous %}
+              <li {% if page_obj.number == 1 %} class="page-item active" {% endif %}><a class="page-link" href="?page=1">&laquo; 1</a></li>
+              <li class="page-item"> <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Anterior</a></li>
+              {% endif %}
+        
+              {% if page_obj.has_next %}
+              <li class="page-item"> <a class="page-link" href="?page={{ page_obj.next_page_number }}">Próxima</a></li>
+              <li class="page-item"> <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">{{ page_obj.paginator.num_pages}} &raquo;</a></li>
+              {% endif %}
+        
+        
+              </ul>
+            {% endif %}
+          </div>
     </div>
-    
-
-
 </div>
 {% endblock %}
