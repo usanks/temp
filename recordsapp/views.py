@@ -13,7 +13,7 @@ def index(request):
     categorias = Categoria.objects.all()
     status = Status.objects.all()
     visitantes = Visitante.objects.filter(creator = request.user)
-    paginator = Paginator(visitantes, 2)
+    paginator = Paginator(visitantes, 5)
     page_number = request.GET.get('page')
     page_obj = Paginator.get_page(paginator, page_number)
     context = {
