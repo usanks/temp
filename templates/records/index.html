@@ -18,10 +18,10 @@
     <div class="container">
         {% if visitantes.count %} {% include 'partials/_messages.html' %} 
         <div class="row">
-            <div class="col-md-8"></div>
-            <div class="col-md-4">
+            <div class="col-md-9"></div>
+            <div class="col-md-3">
                 <div class="form-group">
-                    <input type="text" class="form-control" id = "searchField" placeholder = "Search">
+                    <input type="text" class="form-control" id = "searchField" placeholder = "Procurar">
                 </div>
             </div>
         </div>
@@ -49,7 +49,7 @@
                         <td>{{visitantes.empresa}}</td>
                         <td>{{visitantes.placa}}</td>
                         <td>{{visitantes.hora}}</td>
-                        <td>{{visitantes.data}}</td>
+                        <td>{{visitantes.data | date:"d/m/Y"}}</td>
                         <td>{{visitantes.status}}</td>
                         <td>
                             <a 
