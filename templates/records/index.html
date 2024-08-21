@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block content %}
 <div class="container mt-4">
     <div class="row">
@@ -15,42 +16,74 @@
     </div>
 
     <div class="container">
-        {% if visitantes.count %} {% include 'partials/_messages.html' %}
-        <table class="table table-stripped table-hover">
-            <thead>
-                <tr>
-                    <th>Nome</th>
-                    <th>CPF</th>
-                    <th>Categoria</th>
-                    <th>Empresa</th>
-                    <th>Placa</th>
-                    <th>Hora</th>
-                    <th>Data</th>
-                    <th>Status</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for visitantes in page_obj %}
-                <tr>
-                    <td>{{visitantes.nome}}</td>
-                    <td>{{visitantes.cpf}}</td>
-                    <td>{{visitantes.categoria}}</td>
-                    <td>{{visitantes.empresa}}</td>
-                    <td>{{visitantes.placa}}</td>
-                    <td>{{visitantes.hora}}</td>
-                    <td>{{visitantes.data}}</td>
-                    <td>{{visitantes.status}}</td>
-                    <td>
-                        <a 
-                        href="{% url 'visitante_edit' visitantes.id %}" 
-                        class="btn btn-outline-warning btn-sm mt-2"
-                        >Editar</a>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+        {% if visitantes.count %} {% include 'partials/_messages.html' %} 
+        <div class="row">
+            <div class="col-md-8"></div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <input type="text" class="form-control" id = "searchField" placeholder = "Search">
+                </div>
+            </div>
+        </div>
+        <div class = "app-table">
+            <table class="table table-stripped table-hover">
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>CPF</th>
+                        <th>Categoria</th>
+                        <th>Empresa</th>
+                        <th>Placa</th>
+                        <th>Hora</th>
+                        <th>Data</th>
+                        <th>Status</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for visitantes in page_obj %}
+                    <tr>
+                        <td>{{visitantes.nome}}</td>
+                        <td>{{visitantes.cpf}}</td>
+                        <td>{{visitantes.categoria}}</td>
+                        <td>{{visitantes.empresa}}</td>
+                        <td>{{visitantes.placa}}</td>
+                        <td>{{visitantes.hora}}</td>
+                        <td>{{visitantes.data}}</td>
+                        <td>{{visitantes.status}}</td>
+                        <td>
+                            <a 
+                            href="{% url 'visitante_edit' visitantes.id %}" 
+                            class="btn btn-outline-warning btn-sm mt-2"
+                            >Editar</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        
+        <p class="no-results" style="display: none;">Nenhum resultado encontrado</p>
+        <div class = "table-output">
+            <table class="table table-stripped table-hover">
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>CPF</th>
+                        <th>Categoria</th>
+                        <th>Empresa</th>
+                        <th>Placa</th>
+                        <th>Hora</th>
+                        <th>Data</th>
+                        <th>Status</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody class="table-body">
+                </tbody>
+            </table>
+        </div>
+
         <div class="pagination-container">
             <div class="">
               Mostrando página {{page_obj.number}} de {{ page_obj.paginator.num_pages }}
@@ -64,12 +97,11 @@
               {% if page_obj.has_next %}
               <li class="page-item"> <a class="page-link" href="?page={{ page_obj.next_page_number }}">Próxima</a></li>
               <li class="page-item"> <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">{{ page_obj.paginator.num_pages}} &raquo;</a></li>
-              {% endif %}
-        
-        
+              {% endif %}  
               </ul>
             {% endif %}
           </div>
     </div>
 </div>
+<script src="{% static 'js/searchVisitantes.js' %}"></script>
 {% endblock %}

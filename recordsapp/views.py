@@ -4,8 +4,27 @@ from django.contrib.auth.decorators import login_required
 from .models import Visitante, Categoria, Status
 from django.contrib import messages
 from django.core.paginator import Paginator
+import json
+from django.http import JsonResponse, HttpResponse
 
-# Create your views here.
+def search_visitantes(request):
+    if request.method=='POST':
+        search_str = json.loads(request.body).get('searchText')
+
+        visitantes = Visitante.objects.filter(
+            nome__icontains = search_str, creator = request.user) | Visitante.objects.filter(
+            cpf__istartswith = search_str, creator = request.user) | Visitante.objects.filter(
+            categoria__icontains = search_str, creator = request.user) | Visitante.objects.filter(
+            empresa__icontains = search_str, creator = request.user) | Visitante.objects.filter(
+            placa__istartswith = search_str, creator = request.user) | Visitante.objects.filter(
+            hora__istartswith = search_str, creator = request.user) | Visitante.objects.filter(
+            data__istartswith = search_str, creator = request.user) | Visitante.objects.filter(
+            status__icontains=search_str,creator = request.user)
+        
+        data = visitantes.values()
+        return JsonResponse(list(data), safe=False)   
+
+
 
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 @login_required(login_url='/authentication/login')
