@@ -81,7 +81,7 @@
                             type="date" 
                             class="form-control form-control-sm" 
                             name = 'data_visitante'
-                            value="{{values.data}}"
+                            value="{{values.data |date:'Y-m-d' }}"
                         >
                     </div>
                     <div class="form-group">
