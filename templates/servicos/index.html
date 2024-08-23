@@ -6,17 +6,17 @@
         <div class="col-md-10">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="">Visitantes</a></li>
+                    <li class="breadcrumb-item"><a href="">Prestadores de serviço</a></li>
                 </ol>
             </nav>
         </div>
         <div class="col-md-2 mt-1">
-            <a href="{% url 'add-records' %}" class="btn btn-outline-primary">Adicionar registro</a>
+            <a href="{% url 'add-servico' %}" class="btn btn-outline-primary">Adicionar registro</a>
         </div>
     </div>
 
     <div class="container">
-        {% if visitantes.count %} {% include 'partials/_messages.html' %} 
+        {% include 'partials/_messages.html' %} {% if prestadores.count %}
         <div class="row">
             <div class="col-md-9"></div>
             <div class="col-md-3">
@@ -41,19 +41,19 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for visitantes in page_obj %}
+                    {% for prestadores in page_obj %}
                     <tr>
-                        <td>{{visitantes.nome}}</td>
-                        <td>{{visitantes.cpf}}</td>
-                        <td>{{visitantes.categoria}}</td>
-                        <td>{{visitantes.empresa}}</td>
-                        <td>{{visitantes.placa}}</td>
-                        <td>{{visitantes.hora}}</td>
-                        <td>{{visitantes.data | date:"d/m/Y"}}</td>
-                        <td>{{visitantes.status}}</td>
+                        <td>{{prestadores.nome}}</td>
+                        <td>{{prestadores.cpf}}</td>
+                        <td>{{prestadores.categoria}}</td>
+                        <td>{{prestadores.empresa}}</td>
+                        <td>{{prestadores.placa}}</td>
+                        <td>{{prestadores.hora}}</td>
+                        <td>{{prestadores.data | date:"d/m/Y"}}</td>
+                        <td>{{prestadores.status}}</td>
                         <td>
                             <a 
-                            href="{% url 'visitante_edit' visitantes.id %}" 
+                            href="{% url 'servico_edit' prestadores.id %}" 
                             class="btn btn-outline-warning btn-sm mt-2"
                             >Editar</a>
                         </td>
@@ -103,5 +103,5 @@
           </div>
     </div>
 </div>
-<script src="{% static 'js/searchVisitantes.js' %}"></script>
+<script src="{% static 'js/searchServicos.js' %}"></script>
 {% endblock %}

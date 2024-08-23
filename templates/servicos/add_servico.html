@@ -1,0 +1,97 @@
+{% extends 'base.html' %} {% block content %}   
+<div class="containe mt-4">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'servico' %}">Prestadores de serviço</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Adicionar prestador de serviço</li>
+        </ol>
+    </nav>
+
+    <div class="mb-4 card">
+        <form action="{% url 'add-servico' %}" method="post">
+            {% include 'partials/_messages.html' %}
+            {% csrf_token %}
+            <div class="card-body">
+                <div class="form-group">
+                    <label for="">Nome Completo *</label>
+                    <input 
+                        type="text" 
+                        class="form-control form-control-sm" 
+                        name = 'nome_servico' 
+                        value="{{values.nome_servico}}"
+                    >
+                </div>
+                <div class="form-group">
+                    <label for="">CPF (Apenas números) *</label>
+                    <input 
+                        type="number" 
+                        class="form-control form-control-sm" 
+                        name = 'cpf_servico' 
+                        value="{{values.cpf_servico}}" 
+                        placeholder = "Ex: 48658533289"
+                    >
+                </div>
+                <div class="form-group">
+                    <label for="">Categoria *</label>
+                    <select  class="form-control" name="categoria_servico">
+                        {% for categorias in categorias %} 
+                        <option name = "categoria_servico" value = "{{categorias.name}}">{{categorias.name}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="">Empresa</label>
+                    <input 
+                        type="text" 
+                        class="form-control form-control-sm" 
+                        name = 'empresa_servico'
+                        value="{{values.empresa_servico}}"
+                    >
+                </div>
+                <div class="form-group">
+                    <label for="">Placa (Apenas letras e números)</label>
+                    <input 
+                        type="text" 
+                        class="form-control form-control-sm" 
+                        name = 'placa_servico'
+                        value="{{values.placa_servico}}"
+                        placeholder = "Ex: XXX8748"
+                    >
+                </div>
+                <div class="form-group">
+                    <label for="">Hora *</label>
+                    <input 
+                        type="time" 
+                        class="form-control form-control-sm" 
+                        name = 'hora_servico'
+                        value="{{values.hora_servico}}"
+                    >
+                </div>
+                <div class="form-group">
+                    <label for="">Data *</label>
+                    <input 
+                        type="date" 
+                        class="form-control form-control-sm" 
+                        name = 'data_servico'
+                        value="{{values.data_servico}}"
+                    >
+                </div>
+                <div class="form-group">
+                    <label for="">Status *</label>
+                    <select class="form-control" name="status_servico">
+                        {% for status in status %} 
+                        <option name = "status_servico" value = "{{status.name}}">{{status.name}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <input type="submit" value="Enviar" class="mt-1 btn btn-primary">
+            </div>
+        </form>
+    </div>        
+</div>
+
+
+
+
+
+{% endblock %}

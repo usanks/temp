@@ -1,0 +1,101 @@
+{% extends 'base.html' %} {% block content %} 
+<div class="containe mt-4">
+<div class="row">
+    <div class="col-md-10">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'fornecedor' %}">Fornecedores</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Editar registro</li>
+            </ol>
+        </nav>
+    </div>
+    <div class="col-md-2">
+        <a href="{% url 'fornecedor_delete' fornecedores.id %}" class="btn btn-outline-danger mt-1">Excluir</a>
+    </div>
+</div>
+
+    <div class="mb-4 card">
+        <div class="card-body">
+            <form action="{% url 'fornecedor_edit' fornecedores.id %}" method="post">
+                {% include 'partials/_messages.html' %}{% csrf_token %}
+                <div class="card-body">
+                    <div class="form-group">
+                        <label for="">Nome Completo *</label>
+                        <input 
+                            type="text" 
+                            class="form-control form-control-sm" 
+                            name = 'nome_fornecedor' 
+                            value="{{values.nome}}"
+                        >
+                    </div>
+                    <div class="form-group">
+                        <label for="">CPF (Apenas números) *</label>
+                        <input 
+                            type="number" 
+                            class="form-control form-control-sm" 
+                            name = 'cpf_fornecedor' 
+                            value="{{values.cpf}}" 
+                            placeholder = "Ex: 48658533289"
+                        >
+                    </div>
+                    <div class="form-group">
+                        <label for="">Categoria *</label>
+                        <select  class="form-control" name="categoria_fornecedor">
+                            <option selected name = "categoria_fornecedor" value = "{{values.categoria}}">{{values.categoria}}</option>                        
+                            {% for categorias in categorias %} 
+                            <option name = "categoria_fornecedor" value = "{{categorias.name}}">{{categorias.name}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="">Empresa</label>
+                        <input 
+                            type="text" 
+                            class="form-control form-control-sm" 
+                            name = 'empresa_fornecedor'
+                            value="{{values.empresa}}"
+                        >
+                    </div>
+                    <div class="form-group">
+                        <label for="">Placa (Apenas letras e números)</label>
+                        <input 
+                            type="text" 
+                            class="form-control form-control-sm" 
+                            name = 'placa_fornecedor'
+                            value="{{values.placa}}"
+                            placeholder = "Ex: XXX8748"
+                        >
+                    </div>
+                    <div class="form-group">
+                        <label for="">Hora *</label>
+                        <input 
+                            type="time" 
+                            class="form-control form-control-sm" 
+                            name = 'hora_fornecedor'
+                            value="{{values.hora}}"
+                        >
+                    </div>
+                    <div class="form-group">
+                        <label for="">Data *</label>
+                        <input 
+                            type="date" 
+                            class="form-control form-control-sm" 
+                            name = 'data_fornecedor'
+                            value="{{values.data |date:'Y-m-d' }}"
+                        >
+                    </div>
+                    <div class="form-group">
+                        <label for="">Status *</label>
+                        <select class="form-control" name="status_fornecedor">
+                        {% for status in status %} 
+                            <option name = "status_fornecedor" value = "{{status.name}}">{{status.name}}</option>
+                        {% endfor %}     
+                        </select>
+                    </div>                  
+                    <input type="submit" value="Salvar" class="mt-1 btn btn-primary">
+                </div>
+            </form>
+        </div>
+    </div>        
+</div>
+{% endblock %}

@@ -18,7 +18,7 @@ def search_visitantes(request):
             empresa__icontains = search_str, creator = request.user) | Visitante.objects.filter(
             placa__istartswith = search_str, creator = request.user) | Visitante.objects.filter(
             hora__istartswith = search_str, creator = request.user) | Visitante.objects.filter(
-            data__istartswith = search_str, creator = request.user) | Visitante.objects.filter(
+            data__icontains = search_str, creator = request.user) | Visitante.objects.filter(
             status__icontains=search_str,creator = request.user)
         
         data = visitantes.values()
