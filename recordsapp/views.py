@@ -183,7 +183,7 @@ def visitante_edit(request, id):
         visitantes.placa = placa_visitante
         visitantes.hora = hora_visitante
         visitantes.data = data_visitante
-        visitantes.creator = request.user
+        # visitantes.creator = request.user
         visitantes.status = status_visitante
 
         visitantes.save()

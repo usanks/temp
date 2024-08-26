@@ -25,7 +25,7 @@ class Visitante(models.Model):
         return self.status
         
     class Meta:
-        ordering = ['status','-data']
+        ordering = ['-status','-data']
 
 class Categoria(models.Model):
     name = models.CharField(max_length=255)

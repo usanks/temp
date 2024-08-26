@@ -18,9 +18,10 @@
     <div class="container">
         {% if visitantes.count %} {% include 'partials/_messages.html' %} 
         <div class="row">
-            <div class="col-md-9"></div>
+            <div class="col-md-9">
+                <a href="{% url 'visitante_csv' %}" class="mt-1 btn btn-outline-success btn-sm">Excel</a>
+            </div>
             <div class="col-md-3">
-                <a href="{% url 'visitante_csv' %}" class="btn btn-secondary">Exportar CSV</a>
                 <div class="form-group">
                     <input type="text" class="form-control" id = "searchField" placeholder = "Procurar">
                 </div>
@@ -53,10 +54,14 @@
                         <td>{{visitantes.data | date:"d/m/Y"}}</td>
                         <td>{{visitantes.status}}</td>
                         <td>
+                            {% for group in request.user.groups.all %}
+                            {% if group.name == 'guarita' %}
                             <a 
                             href="{% url 'visitante_edit' visitantes.id %}" 
                             class="btn btn-outline-warning btn-sm mt-2"
                             >Editar</a>
+                            {% endif %}
+                            {% endfor %}                            
                         </td>
                     </tr>
                     {% endfor %}
