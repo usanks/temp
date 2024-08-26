@@ -11,6 +11,9 @@ import datetime
 
 # Create your views here.
 
+def has_group(user, group):
+    return user.groups.filter(name=group).exists()
+
 def search_servico(request):
     if request.method=='POST':
         search_str = json.loads(request.body).get('searchText')
@@ -31,17 +34,30 @@ def search_servico(request):
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 @login_required(login_url='/authentication/login')
 def index(request):
-    categorias = Categoria.objects.all()
-    status = Status.objects.all()
-    prestadores = Prestador.objects.filter(creator = request.user)
-    paginator = Paginator(prestadores, 5)
-    page_number = request.GET.get('page')
-    page_obj = Paginator.get_page(paginator, page_number)
-    context = {
-        'prestadores': prestadores,
-        'page_obj': page_obj
-    }
-    return render(request,'servicos/index.html', context)
+    if has_group(request.user, "guarita"):
+        categorias = Categoria.objects.all()
+        status = Status.objects.all()
+        prestadores = Prestador.objects.filter()
+        paginator = Paginator(prestadores, 5)
+        page_number = request.GET.get('page')
+        page_obj = Paginator.get_page(paginator, page_number)
+        context = {
+            'prestadores': prestadores,
+            'page_obj': page_obj
+        }
+        return render(request,'servicos/index.html', context)
+    else:
+        categorias = Categoria.objects.all()
+        status = Status.objects.all()
+        prestadores = Prestador.objects.filter(creator = request.user)
+        paginator = Paginator(prestadores, 5)
+        page_number = request.GET.get('page')
+        page_obj = Paginator.get_page(paginator, page_number)
+        context = {
+            'prestadores': prestadores,
+            'page_obj': page_obj
+        }
+        return render(request,'servicos/index.html', context)
 
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 @login_required(login_url='/authentication/login')
@@ -174,7 +190,7 @@ def servico_edit(request, id):
         prestadores.placa = placa_servico
         prestadores.hora = hora_servico
         prestadores.data = data_servico
-        prestadores.creator = request.user
+        # prestadores.creator = request.user
         prestadores.status = status_servico
 
         prestadores.save()

@@ -25,7 +25,7 @@ class Fornecedor(models.Model):
         return self.status
     
     class Meta:
-        ordering = ['status','-data',]
+        ordering = ['-status','-data',]
         verbose_name_plural = 'Fornecedores'
 
 class Categoria(models.Model):

@@ -40,7 +40,7 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="">Empresa</label>
+                    <label for="">Empresa *</label>
                     <input 
                         type="text" 
                         class="form-control form-control-sm" 
@@ -79,9 +79,9 @@
                 <div class="form-group">
                     <label for="">Status *</label>
                     <select class="form-control" name="status_servico">
-                        {% for status in status %} 
-                        <option name = "status_servico" value = "{{status.name}}">{{status.name}}</option>
-                        {% endfor %}
+                        {% if status %} 
+                        <option name = "status_servico" value = "{{status.2.name}}">{{status.2.name}}</option>
+                        {% endif %}
                     </select>
                 </div>
                 <input type="submit" value="Enviar" class="mt-1 btn btn-primary">

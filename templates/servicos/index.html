@@ -18,9 +18,14 @@
     <div class="container">
         {% include 'partials/_messages.html' %} {% if prestadores.count %}
         <div class="row">
-            <div class="col-md-9"></div>
+            <div class="col-md-9">
+                {% for group in request.user.groups.all %}
+                {% if group.name == 'guarita' %}
+                <a href="{% url 'export_csv' %}" class="mt-1 btn btn-outline-success btn-sm">Excel</a>
+                {% endif %}
+                {% endfor %}
+            </div>
             <div class="col-md-3">
-                <a href="{% url 'export_csv' %}" class="btn btn-secondary">Exportar CSV</a>
                 <div class="form-group">
                     <input type="text" class="form-control" id = "searchField" placeholder = "Procurar">
                 </div>
