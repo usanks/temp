@@ -9,6 +9,9 @@ from django.http import JsonResponse, HttpResponse
 import csv
 import datetime
 
+def has_group(user, group):
+    return user.groups.filter(name=group).exists()
+
 def search_visitantes(request):
     if request.method=='POST':
         search_str = json.loads(request.body).get('searchText')
@@ -31,17 +34,31 @@ def search_visitantes(request):
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 @login_required(login_url='/authentication/login')
 def index(request):
-    categorias = Categoria.objects.all()
-    status = Status.objects.all()
-    visitantes = Visitante.objects.filter(creator = request.user)
-    paginator = Paginator(visitantes, 5)
-    page_number = request.GET.get('page')
-    page_obj = Paginator.get_page(paginator, page_number)
-    context = {
-        'visitantes': visitantes,
-        'page_obj': page_obj
-    }
-    return render(request,'records/index.html', context)
+    if has_group(request.user, "guarita"):
+        categorias = Categoria.objects.all()
+        status = Status.objects.all()
+        visitantes = Visitante.objects.filter()
+        paginator = Paginator(visitantes, 5)
+        page_number = request.GET.get('page')
+        page_obj = Paginator.get_page(paginator, page_number)
+        context = {
+            'visitantes': visitantes,
+            'page_obj': page_obj
+        }
+        return render(request,'records/index.html', context)
+    else:
+        categorias = Categoria.objects.all()
+        status = Status.objects.all()
+        visitantes = Visitante.objects.filter(creator = request.user)
+        paginator = Paginator(visitantes, 5)
+        page_number = request.GET.get('page')
+        page_obj = Paginator.get_page(paginator, page_number)
+        context = {
+            'visitantes': visitantes,
+            'page_obj': page_obj
+        }
+        return render(request,'records/index.html', context)
+        
 
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 @login_required(login_url='/authentication/login')
