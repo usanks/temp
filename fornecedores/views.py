@@ -6,6 +6,8 @@ from django.contrib import messages
 from django.core.paginator import Paginator
 import json
 from django.http import JsonResponse, HttpResponse
+import csv
+import datetime
 
 # Create your views here.
 
@@ -185,3 +187,15 @@ def fornecedor_delete(request,id):
     fornecedores.delete()
     messages.success(request, 'Registro removido com sucesso!')
     return redirect('fornecedor')
+
+def fornecedor_csv(request):
+    response = HttpResponse(content_type = 'text/csv')
+    response['Content-Disposition']='attachment; filename = Registros' +str(datetime.datetime.now())+'.csv'
+    writer = csv.writer(response)
+    writer.writerow(['Nome','CPF','Categoria','Empresa','Placa','Hora','Data','Status'])
+
+    registros = Fornecedor.objects.filter()
+
+    for registro in registros:
+        writer.writerow([registro.nome, registro.cpf, registro.categoria, registro.empresa, registro.placa, registro.hora, registro.data, registro.status])
+    return response

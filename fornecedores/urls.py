@@ -9,4 +9,5 @@ urlpatterns = [
     path('fornecedor_edit/<int:id>', views.fornecedor_edit, name="fornecedor_edit"),
     path('fornecedor_delete/<int:id>', views.fornecedor_delete, name="fornecedor_delete"),
     path('search_fornecedor', csrf_exempt(views.search_fornecedor), name="fornecedor_edit"),
+    path('fornecedor_csv', csrf_exempt(views.fornecedor_csv), name="fornecedor_csv"),
 ]

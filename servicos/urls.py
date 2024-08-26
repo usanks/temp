@@ -9,4 +9,5 @@ urlpatterns = [
     path('servico_edit/<int:id>', views.servico_edit, name="servico_edit"),
     path('servico_delete/<int:id>', views.servico_delete, name="servico_delete"),
     path('search_servico', csrf_exempt(views.search_servico), name="servico_edit"),
+    path('export_csv', csrf_exempt(views.export_csv), name="export_csv"),
 ]
