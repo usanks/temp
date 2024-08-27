@@ -40,9 +40,10 @@
                         <th>Categoria</th>
                         <th>Empresa</th>
                         <th>Placa</th>
+                        <th>Status</th>
+                        <th>Requerente</th>
                         <th>Hora</th>
                         <th>Data</th>
-                        <th>Status</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -54,9 +55,10 @@
                         <td>{{fornecedores.categoria}}</td>
                         <td>{{fornecedores.empresa}}</td>
                         <td>{{fornecedores.placa}}</td>
+                        <td>{{fornecedores.status}}</td>
+                        <td>{{fornecedores.creator.get_full_name}}</td> 
                         <td>{{fornecedores.hora}}</td>
                         <td>{{fornecedores.data | date:"d/m/Y"}}</td>
-                        <td>{{fornecedores.status}}</td>
                         <td>
                             <a 
                             href="{% url 'fornecedor_edit' fornecedores.id %}" 

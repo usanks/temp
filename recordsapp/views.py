@@ -13,21 +13,38 @@ def has_group(user, group):
     return user.groups.filter(name=group).exists()
 
 def search_visitantes(request):
-    if request.method=='POST':
-        search_str = json.loads(request.body).get('searchText')
+    if has_group(request.user, "guarita"):
+        if request.method=='POST':
+            search_str = json.loads(request.body).get('searchText')
 
-        visitantes = Visitante.objects.filter(
-            nome__icontains = search_str, creator = request.user) | Visitante.objects.filter(
-            cpf__istartswith = search_str, creator = request.user) | Visitante.objects.filter(
-            categoria__icontains = search_str, creator = request.user) | Visitante.objects.filter(
-            empresa__icontains = search_str, creator = request.user) | Visitante.objects.filter(
-            placa__istartswith = search_str, creator = request.user) | Visitante.objects.filter(
-            hora__istartswith = search_str, creator = request.user) | Visitante.objects.filter(
-            data__icontains = search_str, creator = request.user) | Visitante.objects.filter(
-            status__icontains=search_str,creator = request.user)
-        
-        data = visitantes.values()
-        return JsonResponse(list(data), safe=False)   
+            visitantes = Visitante.objects.filter(
+                nome__icontains = search_str) | Visitante.objects.filter(
+                cpf__istartswith = search_str) | Visitante.objects.filter(
+                categoria__icontains = search_str) | Visitante.objects.filter(
+                empresa__icontains = search_str) | Visitante.objects.filter(
+                placa__istartswith = search_str) | Visitante.objects.filter(
+                hora__istartswith = search_str) | Visitante.objects.filter(
+                data__icontains = search_str) | Visitante.objects.filter(
+                status__icontains=search_str)
+            
+            data = visitantes.values()
+            return JsonResponse(list(data), safe=False)
+    else:
+        if request.method=='POST':
+            search_str = json.loads(request.body).get('searchText')
+
+            visitantes = Visitante.objects.filter(
+                nome__icontains = search_str, creator = request.user) | Visitante.objects.filter(
+                cpf__istartswith = search_str, creator = request.user) | Visitante.objects.filter(
+                categoria__icontains = search_str, creator = request.user) | Visitante.objects.filter(
+                empresa__icontains = search_str, creator = request.user) | Visitante.objects.filter(
+                placa__istartswith = search_str, creator = request.user) | Visitante.objects.filter(
+                hora__istartswith = search_str, creator = request.user) | Visitante.objects.filter(
+                data__icontains = search_str, creator = request.user) | Visitante.objects.filter(
+                status__icontains=search_str,creator = request.user)
+            
+            data = visitantes.values()
+            return JsonResponse(list(data), safe=False)  
 
 
 

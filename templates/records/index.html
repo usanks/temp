@@ -40,9 +40,10 @@
                         <th>Categoria</th>
                         <th>Empresa</th>
                         <th>Placa</th>
+                        <th>Status</th>
+                        <th>Requerente</th>
                         <th>Hora</th>
                         <th>Data</th>
-                        <th>Status</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -54,9 +55,10 @@
                         <td>{{visitantes.categoria}}</td>
                         <td>{{visitantes.empresa}}</td>
                         <td>{{visitantes.placa}}</td>
-                        <td>{{visitantes.hora}}</td>
-                        <td>{{visitantes.data | date:"d/m/Y"}}</td>
                         <td>{{visitantes.status}}</td>
+                        <td>{{visitantes.creator.get_full_name}}</td>
+                        <td>{{visitantes.hora}}</td>
+                        <td>{{visitantes.data | date:"d/m/Y"}}</td>     
                         <td>
                             {% for group in request.user.groups.all %}
                             {% if group.name == 'guarita' %}

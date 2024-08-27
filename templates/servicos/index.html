@@ -40,9 +40,10 @@
                         <th>Categoria</th>
                         <th>Empresa</th>
                         <th>Placa</th>
+                        <th>Status</th>
+                        <th>Requerente</th>
                         <th>Hora</th>
                         <th>Data</th>
-                        <th>Status</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -54,9 +55,10 @@
                         <td>{{prestadores.categoria}}</td>
                         <td>{{prestadores.empresa}}</td>
                         <td>{{prestadores.placa}}</td>
+                        <td>{{prestadores.status}}</td>
+                        <td>{{prestadores.creator.get_full_name}}</td> 
                         <td>{{prestadores.hora}}</td>
                         <td>{{prestadores.data | date:"d/m/Y"}}</td>
-                        <td>{{prestadores.status}}</td>
                         <td>
                             <a 
                             href="{% url 'servico_edit' prestadores.id %}" 

@@ -15,21 +15,38 @@ def has_group(user, group):
     return user.groups.filter(name=group).exists()
 
 def search_servico(request):
-    if request.method=='POST':
-        search_str = json.loads(request.body).get('searchText')
+    if has_group(request.user, "guarita"):
+        if request.method=='POST':
+            search_str = json.loads(request.body).get('searchText')
 
-        prestadores = Prestador.objects.filter(
-            nome__icontains = search_str, creator = request.user) | Prestador.objects.filter(
-            cpf__istartswith = search_str, creator = request.user) | Prestador.objects.filter(
-            categoria__icontains = search_str, creator = request.user) | Prestador.objects.filter(
-            empresa__icontains = search_str, creator = request.user) | Prestador.objects.filter(
-            placa__istartswith = search_str, creator = request.user) | Prestador.objects.filter(
-            hora__istartswith = search_str, creator = request.user) | Prestador.objects.filter(
-            data__icontains = search_str, creator = request.user) | Prestador.objects.filter(
-            status__icontains=search_str,creator = request.user)
-        
-        data = prestadores.values()
-        return JsonResponse(list(data), safe=False)  
+            prestadores = Prestador.objects.filter(
+                nome__icontains = search_str) | Prestador.objects.filter(
+                cpf__istartswith = search_str) | Prestador.objects.filter(
+                categoria__icontains = search_str) | Prestador.objects.filter(
+                empresa__icontains = search_str) | Prestador.objects.filter(
+                placa__istartswith = search_str) | Prestador.objects.filter(
+                hora__istartswith = search_str) | Prestador.objects.filter(
+                data__icontains = search_str) | Prestador.objects.filter(
+                status__icontains=search_str)
+            
+            data = prestadores.values()
+            return JsonResponse(list(data), safe=False)
+    else:
+        if request.method=='POST':
+            search_str = json.loads(request.body).get('searchText')
+
+            prestadores = Prestador.objects.filter(
+                nome__icontains = search_str, creator = request.user) | Prestador.objects.filter(
+                cpf__istartswith = search_str, creator = request.user) | Prestador.objects.filter(
+                categoria__icontains = search_str, creator = request.user) | Prestador.objects.filter(
+                empresa__icontains = search_str, creator = request.user) | Prestador.objects.filter(
+                placa__istartswith = search_str, creator = request.user) | Prestador.objects.filter(
+                hora__istartswith = search_str, creator = request.user) | Prestador.objects.filter(
+                data__icontains = search_str, creator = request.user) | Prestador.objects.filter(
+                status__icontains=search_str,creator = request.user)
+            
+            data = prestadores.values()
+            return JsonResponse(list(data), safe=False)
 
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 @login_required(login_url='/authentication/login')

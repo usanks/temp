@@ -15,21 +15,38 @@ def has_group(user, group):
     return user.groups.filter(name=group).exists()
 
 def search_fornecedor(request):
-    if request.method=='POST':
-        search_str = json.loads(request.body).get('searchText')
+    if has_group(request.user, "guarita"):
+        if request.method=='POST':
+            search_str = json.loads(request.body).get('searchText')
 
-        fornecedores = Fornecedor.objects.filter(
-            nome__icontains = search_str, creator = request.user) | Fornecedor.objects.filter(
-            cpf__istartswith = search_str, creator = request.user) | Fornecedor.objects.filter(
-            categoria__icontains = search_str, creator = request.user) | Fornecedor.objects.filter(
-            empresa__icontains = search_str, creator = request.user) | Fornecedor.objects.filter(
-            placa__istartswith = search_str, creator = request.user) | Fornecedor.objects.filter(
-            hora__istartswith = search_str, creator = request.user) | Fornecedor.objects.filter(
-            data__icontains = search_str, creator = request.user) | Fornecedor.objects.filter(
-            status__icontains=search_str,creator = request.user)
-        
-        data = fornecedores.values()
-        return JsonResponse(list(data), safe=False)  
+            fornecedores = Fornecedor.objects.filter(
+                nome__icontains = search_str) | Fornecedor.objects.filter(
+                cpf__istartswith = search_str) | Fornecedor.objects.filter(
+                categoria__icontains = search_str) | Fornecedor.objects.filter(
+                empresa__icontains = search_str) | Fornecedor.objects.filter(
+                placa__istartswith = search_str) | Fornecedor.objects.filter(
+                hora__istartswith = search_str) | Fornecedor.objects.filter(
+                data__icontains = search_str) | Fornecedor.objects.filter(
+                status__icontains=search_str)
+            
+            data = fornecedores.values()
+            return JsonResponse(list(data), safe=False)
+    else:
+        if request.method=='POST':
+            search_str = json.loads(request.body).get('searchText')
+
+            fornecedores = Fornecedor.objects.filter(
+                nome__icontains = search_str, creator = request.user) | Fornecedor.objects.filter(
+                cpf__istartswith = search_str, creator = request.user) | Fornecedor.objects.filter(
+                categoria__icontains = search_str, creator = request.user) | Fornecedor.objects.filter(
+                empresa__icontains = search_str, creator = request.user) | Fornecedor.objects.filter(
+                placa__istartswith = search_str, creator = request.user) | Fornecedor.objects.filter(
+                hora__istartswith = search_str, creator = request.user) | Fornecedor.objects.filter(
+                data__icontains = search_str, creator = request.user) | Fornecedor.objects.filter(
+                status__icontains=search_str,creator = request.user)
+            
+            data = fornecedores.values()
+            return JsonResponse(list(data), safe=False)
 
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 @login_required(login_url='/authentication/login')
