@@ -52,8 +52,6 @@ def search_visitantes(request):
 @login_required(login_url='/authentication/login')
 def index(request):
     if has_group(request.user, "guarita"):
-        categorias = Categoria.objects.all()
-        status = Status.objects.all()
         visitantes = Visitante.objects.filter()
         paginator = Paginator(visitantes, 5)
         page_number = request.GET.get('page')
@@ -64,8 +62,6 @@ def index(request):
         }
         return render(request,'records/index.html', context)
     else:
-        categorias = Categoria.objects.all()
-        status = Status.objects.all()
         visitantes = Visitante.objects.filter(creator = request.user)
         paginator = Paginator(visitantes, 5)
         page_number = request.GET.get('page')
@@ -80,7 +76,6 @@ def index(request):
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 @login_required(login_url='/authentication/login')
 def add_record(request):
-    # Adicionar aqui o condicional que limita os status dependendo do grupo de usuário
     categorias = Categoria.objects.all()
     status = Status.objects.all()
     context = {
@@ -200,7 +195,6 @@ def visitante_edit(request, id):
         visitantes.placa = placa_visitante
         visitantes.hora = hora_visitante
         visitantes.data = data_visitante
-        # visitantes.creator = request.user
         visitantes.status = status_visitante
 
         visitantes.save()

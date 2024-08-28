@@ -1,7 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils.timezone import now
-from django.core.exceptions import ValidationError
 
 # Create your models here.
 class Prestador(models.Model):

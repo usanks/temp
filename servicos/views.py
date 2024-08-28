@@ -52,8 +52,6 @@ def search_servico(request):
 @login_required(login_url='/authentication/login')
 def index(request):
     if has_group(request.user, "guarita"):
-        categorias = Categoria.objects.all()
-        status = Status.objects.all()
         prestadores = Prestador.objects.filter()
         paginator = Paginator(prestadores, 5)
         page_number = request.GET.get('page')
@@ -64,8 +62,6 @@ def index(request):
         }
         return render(request,'servicos/index.html', context)
     else:
-        categorias = Categoria.objects.all()
-        status = Status.objects.all()
         prestadores = Prestador.objects.filter(creator = request.user)
         paginator = Paginator(prestadores, 5)
         page_number = request.GET.get('page')
@@ -79,7 +75,6 @@ def index(request):
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 @login_required(login_url='/authentication/login')
 def add_servico(request):
-    # Adicionar aqui o condicional que limita os status dependendo do grupo de usuário
     categorias = Categoria.objects.all()
     status = Status.objects.all()
     context = {
@@ -170,8 +165,6 @@ def servico_edit(request, id):
         data_servico = request.POST['data_servico']
         status_servico = request.POST['status_servico']
 
-
-
         if not nome_servico:
             messages.error(request, 'É necessário informar o nome completo')
             return render(request,'servicos/servico_edit.html', context)
@@ -207,7 +200,6 @@ def servico_edit(request, id):
         prestadores.placa = placa_servico
         prestadores.hora = hora_servico
         prestadores.data = data_servico
-        # prestadores.creator = request.user
         prestadores.status = status_servico
 
         prestadores.save()

@@ -52,8 +52,6 @@ def search_fornecedor(request):
 @login_required(login_url='/authentication/login')
 def index(request):
     if has_group(request.user, "guarita"):
-        categorias = Categoria.objects.all()
-        status = Status.objects.all()
         fornecedores = Fornecedor.objects.filter()
         paginator = Paginator(fornecedores, 5)
         page_number = request.GET.get('page')
@@ -64,8 +62,6 @@ def index(request):
         }
         return render(request,'fornecedores/index.html', context)
     else:
-        categorias = Categoria.objects.all()
-        status = Status.objects.all()
         fornecedores = Fornecedor.objects.filter(creator = request.user)
         paginator = Paginator(fornecedores, 5)
         page_number = request.GET.get('page')
@@ -79,7 +75,6 @@ def index(request):
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 @login_required(login_url='/authentication/login')
 def add_fornecedor(request):
-    # Adicionar aqui o condicional que limita os status dependendo do grupo de usuário
     categorias = Categoria.objects.all()
     status = Status.objects.all()
     context = {
@@ -89,8 +84,7 @@ def add_fornecedor(request):
     }
 
     if request.method == 'GET':
-        return render(request,'fornecedores/add_fornecedor.html', context)
-    
+        return render(request,'fornecedores/add_fornecedor.html', context)    
 
     if request.method == 'POST':
         nome_fornecedor = request.POST['nome_fornecedor']
@@ -101,8 +95,6 @@ def add_fornecedor(request):
         hora_fornecedor = request.POST['hora_fornecedor']
         data_fornecedor = request.POST['data_fornecedor']
         status_fornecedor = request.POST['status_fornecedor']
-
-
 
         if not nome_fornecedor:
             messages.error(request, 'É necessário informar o nome completo')
@@ -207,7 +199,6 @@ def fornecedor_edit(request, id):
         fornecedores.placa = placa_fornecedor
         fornecedores.hora = hora_fornecedor
         fornecedores.data = data_fornecedor
-        # fornecedores.creator = request.user
         fornecedores.status = status_fornecedor
 
         fornecedores.save()
