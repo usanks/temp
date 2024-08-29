@@ -9,6 +9,7 @@ python-dotenv = "*"
 psycopg2 = "*"
 validate-email = "*"
 xlwt = "*"
+dj-database-url = "*"
 
 [dev-packages]
 
